@@ -1,5 +1,6 @@
 package com.example.wordapp.ui.screen
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.wordapp.ViewModel.WordViewModel
@@ -37,13 +39,21 @@ import com.example.wordapp.ui.components.WordNavigationButtons
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(navController: NavController, viewModel: WordViewModel) {
+fun MainScreen(
+    navController: NavController,
+    viewModel: WordViewModel,
+    showSettingsButton: Boolean
+) {
     val words by viewModel.words.collectAsState(initial = emptyList())
     val selectedOption by viewModel.selectedOption.collectAsState()
     var currentIndex by remember { mutableStateOf(0) }
-    var showEditDialog by remember { mutableStateOf(false) }
-    var showDeleteDialog by remember { mutableStateOf(false) }
+    var showEditDialog by remember { mutableStateOf(showSettingsButton) }
+    var showDeleteDialog by remember { mutableStateOf(showSettingsButton) }
     var editingWord by remember { mutableStateOf<Word?>(null) }
+    val configuration = LocalConfiguration.current
+    val orientation = configuration.orientation
+    val isLandscape = orientation == Configuration.ORIENTATION_LANDSCAPE
+
 
     Scaffold(
         topBar = {
@@ -57,6 +67,7 @@ fun MainScreen(navController: NavController, viewModel: WordViewModel) {
             )
         }
     ) { innerPadding ->
+
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -129,22 +140,22 @@ fun MainScreen(navController: NavController, viewModel: WordViewModel) {
                 } else {
                     viewModel.updateWord(updatedWord)
                 }
-                showEditDialog = false
+                showEditDialog = showSettingsButton
             },
-            onCancel = { showEditDialog = false }
+            onCancel = { showEditDialog = showSettingsButton }
         )
     }
 
     if (showDeleteDialog) {
         AlertDialog(
-            onDismissRequest = { showDeleteDialog = false },
+            onDismissRequest = { showDeleteDialog = showSettingsButton },
             title = { Text("Үг устгах") },
             text = { Text("Та энэ үгийг устгахдаа итгэлтэй байна уу?") },
             confirmButton = {
                 Button(
                     onClick = {
                         words.getOrNull(currentIndex)?.let { viewModel.deleteWord(it) }
-                        showDeleteDialog = false
+                        showDeleteDialog = showSettingsButton
                         if (currentIndex >= words.size - 1) {
                             currentIndex = (words.size - 2).coerceAtLeast(0)
                         }
@@ -158,7 +169,7 @@ fun MainScreen(navController: NavController, viewModel: WordViewModel) {
                 }
             },
             dismissButton = {
-                TextButton(onClick = { showDeleteDialog = false }) {
+                TextButton(onClick = { showDeleteDialog = showSettingsButton }) {
                     Text("Болих")
                 }
             }

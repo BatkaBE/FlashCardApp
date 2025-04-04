@@ -1,56 +1,52 @@
+// NotificationHelper.kt
 package com.example.wordapp.utils
 
-import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import com.example.wordapp.receivers.NotificationReceiver
-import com.example.wordapp.workers.DailyNotificationWorker
-import java.util.concurrent.TimeUnit
+import androidx.core.app.NotificationCompat
+import com.example.wordapp.MainActivity
 
 class NotificationHelper(private val context: Context) {
+    fun sendNotification() {
+        // app ruu shiljih intent uusgeh
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
 
-    fun scheduleNotification() {
-        cancelExistingNotifications()
-
-        // WorkManager-ээр 1 секундын дараа
-        val workRequest = OneTimeWorkRequestBuilder<DailyNotificationWorker>()
-            .setInitialDelay(1, TimeUnit.SECONDS)
-            .build()
-
-        WorkManager.getInstance(context).enqueue(workRequest)
-
-        // AlarmManager-ээр 1 секундын дараа (backup)
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(context, NotificationReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(
+        // pendingintent beldeh
+        val pendingIntent = PendingIntent.getActivity(
             context,
             0,
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        val triggerTime = System.currentTimeMillis() + 1000 // 1 секундын дараа
+        // medegdeliin baiguulalt
+        val channelId = "word_reminder"
+        val notificationBuilder = NotificationCompat.Builder(context, channelId)
+            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .setContentTitle("Үг цээжлэх цаг боллоо!")
+            .setContentText("Шинэ үгс цээжлэхээ мартуузай")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent)  // Товшиход апп руу шилжих
+            .setAutoCancel(true)  // Мэдэгдэл товшигдсан даруй арилгах
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                triggerTime,
-                pendingIntent
+        // medegdel haruulah
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                channelId,
+                "Word Reminder",
+                NotificationManager.IMPORTANCE_DEFAULT
             )
-        } else {
-            alarmManager.setExact(
-                AlarmManager.RTC_WAKEUP,
-                triggerTime,
-                pendingIntent
-            )
+            notificationManager.createNotificationChannel(channel)
         }
-    }
 
-    fun cancelExistingNotifications() {
-        WorkManager.getInstance(context).cancelAllWork()
+        notificationManager.notify(1, notificationBuilder.build())
     }
 }

@@ -83,4 +83,7 @@ dependencies {
     // Other dependencies
     implementation("androidx.navigation:navigation-compose:2.7.5")
     implementation("androidx.compose.material:material-icons-extended:1.5.4")
+    // adaptive screen
+    implementation("androidx.compose.material3:material3-window-size-class")
+
 }

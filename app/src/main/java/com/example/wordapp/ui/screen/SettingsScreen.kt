@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,7 +28,11 @@ import androidx.navigation.NavController
 import com.example.wordapp.ViewModel.WordViewModel
 
 @Composable
-fun SettingsScreen(navController: NavController, viewModel: WordViewModel) {
+fun SettingsScreen(
+    navController: NavController,
+    viewModel: WordViewModel,
+    showBackButton: Boolean
+) {
     val selectedOption by viewModel.selectedOption.collectAsState()
     val options = listOf(
         "Монгол болон гадаад үгийг зэрэг харуулах",
@@ -44,13 +50,36 @@ fun SettingsScreen(navController: NavController, viewModel: WordViewModel) {
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Тохиргоо",
-                style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.padding(bottom = 24.dp),
-                textAlign = TextAlign.Center
-            )
 
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 24.dp)
+            ) {
+                // Back товчлуур
+                if (showBackButton) {
+                    IconButton(
+                        onClick = { navController.popBackStack() },
+                        modifier = Modifier.align(Alignment.CenterStart)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Буцах",
+                            tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                }
+
+                // Гарчиг
+                Text(
+                    text = "Тохиргоо",
+                    style = MaterialTheme.typography.headlineMedium,
+                    modifier = Modifier.align(Alignment.Center),
+                    textAlign = TextAlign.Center
+                )
+            }
+
+            // Тохиргооны сонголтууд
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
