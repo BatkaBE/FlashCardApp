@@ -16,7 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
-import com.example.wordapp.room.Word
+import com.example.wordapp.data.room.Word
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

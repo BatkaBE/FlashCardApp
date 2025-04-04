@@ -1,4 +1,4 @@
-package com.example.wordapp.room
+package com.example.wordapp.data.room
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

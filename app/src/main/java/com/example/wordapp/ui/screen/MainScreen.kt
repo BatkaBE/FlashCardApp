@@ -32,7 +32,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.wordapp.ViewModel.WordViewModel
-import com.example.wordapp.room.Word
+import com.example.wordapp.data.room.Word
 import com.example.wordapp.ui.components.WordDisplay
 import com.example.wordapp.ui.components.WordEditDialog
 import com.example.wordapp.ui.components.WordNavigationButtons

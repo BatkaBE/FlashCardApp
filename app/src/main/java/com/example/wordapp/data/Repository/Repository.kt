@@ -1,7 +1,7 @@
-package com.example.wordapp.Repository
+package com.example.wordapp.data.Repository
 
-import com.example.wordapp.room.Word
-import com.example.wordapp.room.WordDB
+import com.example.wordapp.data.room.Word
+import com.example.wordapp.data.room.WordDB
 import kotlinx.coroutines.flow.Flow
 
 class Repository(private val WordDB:WordDB) {

@@ -70,6 +70,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation ("androidx.datastore:datastore-preferences:1.0.0")
     implementation ("androidx.work:work-runtime-ktx:2.7.1")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     // Correct Room dependencies
     val roomVersion = "2.6.0" // Or replace with a stable version like "2.5.2"
 

@@ -48,7 +48,7 @@ fun SettingsScreen(
             modifier = Modifier
                 .fillMaxWidth(0.9f)
                 .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+
         ) {
 
             Box(
@@ -82,7 +82,8 @@ fun SettingsScreen(
             // Тохиргооны сонголтууд
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 options.forEach { option ->
                     SettingOptionItem(
@@ -112,9 +113,8 @@ private fun SettingOptionItem(
             .padding(vertical = 12.dp, horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Check icon (fixed size)
         Box(
-            modifier = Modifier.width(24.dp), // Fixed width for icon space
+            modifier = Modifier.width(24.dp),
             contentAlignment = Alignment.CenterStart
         ) {
             if (isSelected) {
@@ -127,10 +127,9 @@ private fun SettingOptionItem(
             }
         }
 
-        // Text (takes remaining space)
         Text(
             text = option,
-            modifier = Modifier.weight(1f), // Takes all remaining space
+            modifier = Modifier.weight(1f),
             style = MaterialTheme.typography.bodyLarge
         )
     }

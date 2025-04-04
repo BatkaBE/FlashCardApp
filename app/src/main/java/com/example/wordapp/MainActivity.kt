@@ -22,9 +22,10 @@ import androidx.navigation.compose.rememberNavController
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.example.wordapp.Repository.Repository
 import com.example.wordapp.ViewModel.WordViewModel
-import com.example.wordapp.room.WordDB
+import com.example.wordapp.data.Repository.Repository
+import com.example.wordapp.data.SettingsDataStore
+import com.example.wordapp.data.room.WordDB
 import com.example.wordapp.ui.components.WordApp
 import com.example.wordapp.ui.theme.WordappTheme
 import com.example.wordapp.workers.NotificationWorker
@@ -40,7 +41,9 @@ class MainActivity : ComponentActivity() {
             WordappTheme {
                 val db = WordDB.getDatabase(LocalContext.current)
                 val repository = Repository(db)
-                val viewModel = WordViewModel(repository)
+                val context = LocalContext.current
+                val dataStore = SettingsDataStore(context)
+                val viewModel = WordViewModel(repository, dataStore)
                 val navController = rememberNavController()
                 val layoutDirection = LocalLayoutDirection.current
                 Surface (
