@@ -95,7 +95,7 @@ class MainActivity : ComponentActivity() {
     }
     private fun scheduleNotification() {
         val workRequest = OneTimeWorkRequestBuilder<NotificationWorker>()
-            .setInitialDelay(24, TimeUnit.HOURS)
+            .setInitialDelay(1, TimeUnit.SECONDS)
             .build()
 
         WorkManager.getInstance(this).enqueueUniqueWork(

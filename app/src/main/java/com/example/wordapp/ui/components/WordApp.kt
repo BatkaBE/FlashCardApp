@@ -44,7 +44,6 @@ fun WordApp(
                 }
             }
             else -> {
-
                 Row(Modifier.fillMaxSize()) {
                     MainScreen(
                         navController = navController,

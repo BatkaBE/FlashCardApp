@@ -1,4 +1,3 @@
-// NotificationHelper.kt
 package com.example.wordapp.utils
 
 import android.app.NotificationChannel
@@ -31,8 +30,8 @@ class NotificationHelper(private val context: Context) {
             .setContentTitle("Үг цээжлэх цаг боллоо!")
             .setContentText("Шинэ үгс цээжлэхээ мартуузай")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setContentIntent(pendingIntent)  // Товшиход апп руу шилжих
-            .setAutoCancel(true)  // Мэдэгдэл товшигдсан даруй арилгах
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
 
         // medegdel haruulah
         val notificationManager =

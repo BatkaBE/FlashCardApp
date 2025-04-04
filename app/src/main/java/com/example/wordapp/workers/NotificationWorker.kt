@@ -18,7 +18,7 @@ class NotificationWorker(
         NotificationHelper(applicationContext).sendNotification()
 
         val nextWork = OneTimeWorkRequestBuilder<NotificationWorker>()
-            .setInitialDelay(24, TimeUnit.HOURS)
+            .setInitialDelay(1, TimeUnit.SECONDS)
             .build()
 
         WorkManager.getInstance(applicationContext)
